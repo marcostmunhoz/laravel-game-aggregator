@@ -10,21 +10,21 @@
 </head>
 <body class="bg-gray-900 text-white">
     <header class="border-b border-gray-800">
-        <header class="container mx-auto flex items-center justify-between px-4 py-6">
-            <div class="flex items-center">
+        <header class="container mx-auto flex flex-col lg:flex-row items-center justify-between px-4 py-6">
+            <div class="flex flex-col lg:flex-row items-center">
                 <a href="/">
                     <img src="images/laracasts-logo.svg"
                         alt="laracasts"
                         class="w-32 flex-none"
                     >
                 </a>
-                <ul class="flex ml-16 space-x-8">
+                <ul class="flex mt-6 lg:mt-0 ml-0 lg:ml-16 space-x-8">
                     <li><a href="#" class="hover:text-gray-400">Games</a></li>
                     <li><a href="#" class="hover:text-gray-400">Reviews</a></li>
                     <li><a href="#" class="hover:text-gray-400">Coming Soon</a></li>
                 </ul>
             </div>
-            <div class="flex items-center">
+            <div class="flex mt-6 lg:mt-0 items-center">
                 <div class="relative">
                     <input type="text"
                         class="bg-gray-800 text-sm rounded-full focus:outline-none focus:ring w-64 px-3 py-1 pl-8"

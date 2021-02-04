@@ -60,7 +60,7 @@ $games = [
     <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
         Popular Games
     </h2>
-    <div class="popular-games text-sm grid grid-cols-6 gap-12 border-b border-gray-800 pb-16">
+    <div class="popular-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 border-b border-gray-800 pb-16">
         @foreach ($games as $game)
         <div class="game mt-8">
             <div class="relative inline-block">
@@ -86,8 +86,8 @@ $games = [
         @endforeach
     </div>
 
-    <div class="flex my-10">
-        <div class="recently-reviewed w-3/4 mr-32">
+    <div class="flex flex-col lg:flex-row my-10">
+        <div class="recently-reviewed w-full lg:w-3/4 mr-0 lg:mr-32">
             <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
                 Recently Reviewed
             </h2>
@@ -114,7 +114,7 @@ $games = [
                             {{$game['name']}}
                         </a>
                         <div class="text-gray-400 mt-1">{{$game['platform']}}</div>
-                        <p class="mt-6 text-gray-400">
+                        <p class="mt-6 text-gray-400 hidden lg:block">
                             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Et itaque est odit eius nostrum assumenda porro sequi quod obcaecati tempora!
                         </p>
                     </div>
@@ -122,10 +122,10 @@ $games = [
                 @endforeach
             </div>
         </div>
-        <div class="w-1/4 space-y-10">
+        <div class="lg:w-1/4 mt-12 lg:mt-0 space-y-10">
             <div class="most-antecipated">
                 <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
-                    Recently Reviewed
+                    Most Antecipated
                 </h2>
                 <div class="most-antecipated-container space-y-10 mt-8">
                     @foreach (collect($games)->random(4) as $game)
