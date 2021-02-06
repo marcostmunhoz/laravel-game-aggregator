@@ -2,6 +2,7 @@
 
 namespace App\Services\Http\IGDB;
 
+use App\Services\Http\IGDB\Exceptions\IGDBException;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;

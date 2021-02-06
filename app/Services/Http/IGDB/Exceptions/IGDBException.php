@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Http\IGDB;
+namespace App\Services\Http\IGDB\Exceptions;
 
 use App\Services\Exceptions\ServiceException;
 
