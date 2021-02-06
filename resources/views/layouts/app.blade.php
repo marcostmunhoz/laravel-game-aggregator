@@ -7,8 +7,8 @@
     <title>{{config('app.name')}}</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script src="{{ mix('js/app.js') }}" defer></script>
-    <link rel="stylesheet" href="https://i.icomoon.io/public/temp/76f587dbdb/GameAggregator/style-svg.css">
-    <script defer src="https://i.icomoon.io/public/temp/76f587dbdb/GameAggregator/svgxuse.js"></script>
+    <link rel="stylesheet" href="https://i.icomoon.io/public/temp/03702a295b/GameAggregator/style-svg.css">
+    <script defer src="https://i.icomoon.io/public/temp/03702a295b/GameAggregator/svgxuse.js"></script>
 </head>
 <body class="bg-gray-900 text-white">
     <header class="border-b border-gray-800">
