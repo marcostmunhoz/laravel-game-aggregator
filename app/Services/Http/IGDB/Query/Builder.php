@@ -3,6 +3,7 @@
 namespace App\Services\Http\IGDB\Query;
 
 use App\Services\Http\IGDB\Query\Clauses\FieldClause;
+use App\Services\Http\IGDB\Query\Clauses\SortClause;
 
 class Builder
 {
@@ -10,6 +11,11 @@ class Builder
      * @var FieldClause[]
      */
     protected $fields = [];
+
+    /**
+     * @var SortClause|null
+     */
+    protected $sort;
 
     /**
      * Selects one or more fields.
@@ -46,6 +52,21 @@ class Builder
     }
 
     /**
+     * Add sorting to the query result.
+     *
+     * @param string $field
+     * @param string $direction
+     *
+     * @return $this
+     */
+    public function sortBy(string $field, string $direction = 'asc')
+    {
+        $this->sort = new SortClause($field, $direction);
+
+        return $this;
+    }
+
+    /**
      * Compiles the whole query (fields, where, order).
      *
      * @return string
@@ -56,6 +77,7 @@ class Builder
             \PHP_EOL,
             array_filter([
                 $this->compileFields(),
+                $this->compileSort(),
             ])
         );
     }
@@ -74,5 +96,17 @@ class Builder
         $fields = implode(', ', $this->fields);
 
         return "fields $fields;";
+    }
+
+    /**
+     * Compiles the sort clause.
+     *
+     * @return string|null
+     */
+    protected function compileSort()
+    {
+        return $this->sort
+            ? (string) $this->sort
+            : null;
     }
 }
