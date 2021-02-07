@@ -2,6 +2,7 @@
 
 namespace App\Services\Http\IGDB\Query;
 
+use App\Services\Http\IGDB\Exceptions\BuilderException;
 use App\Services\Http\IGDB\Query\Clauses\FieldClause;
 use App\Services\Http\IGDB\Query\Clauses\SortClause;
 use App\Services\Http\IGDB\Query\Concerns\HasWhereClausesTrait;
@@ -9,7 +10,6 @@ use App\Services\Http\IGDB\Query\Concerns\HasWhereClausesTrait;
 class Builder
 {
     use HasWhereClausesTrait;
-
     /**
      * @var FieldClause[]
      */
@@ -32,6 +32,8 @@ class Builder
     {
         $this->fields = array_map(
             function ($param) {
+                $this->validateFieldName($param, 'fields');
+
                 return new FieldClause($param);
             },
             $params
@@ -49,6 +51,8 @@ class Builder
      */
     public function addField(string $field)
     {
+        $this->validateFieldName($field, 'fields');
+
         $this->fields[] = new FieldClause($field);
 
         return $this;
@@ -64,6 +68,9 @@ class Builder
      */
     public function sortBy(string $field, string $direction = 'asc')
     {
+        $this->validateFieldName($field, 'sort');
+        $this->validateSortDirection($direction);
+
         $this->sort = new SortClause($field, $direction);
 
         return $this;
@@ -112,5 +119,19 @@ class Builder
         return $this->sort
             ? (string) $this->sort
             : null;
+    }
+
+    /**
+     * @param string $direction
+     *
+     * @return void
+     *
+     * @throws BuilderException
+     */
+    protected function validateSortDirection(string $direction)
+    {
+        if (!\in_array($direction, ['asc', 'desc'])) {
+            throw BuilderException::invalidSortDirection($direction);
+        }
     }
 }

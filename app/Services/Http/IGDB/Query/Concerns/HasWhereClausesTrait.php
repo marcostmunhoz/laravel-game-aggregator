@@ -2,9 +2,11 @@
 
 namespace App\Services\Http\IGDB\Query\Concerns;
 
+use App\Services\Http\IGDB\Exceptions\BuilderException;
 use App\Services\Http\IGDB\Query\Clauses\NestedWhereClause;
 use App\Services\Http\IGDB\Query\Clauses\WhereClause;
 use Closure;
+use Illuminate\Support\Str;
 
 trait HasWhereClausesTrait
 {
@@ -16,15 +18,19 @@ trait HasWhereClausesTrait
     /**
      * Add a filtering condition (where) to the query.
      *
-     * @param string $field
-     * @param string $operator
-     * @param mixed  $value
-     * @param bool   $and
+     * @param string|Closure         $field
+     * @param string|mixed|bool|null $operator
+     * @param mixed|null             $value
+     * @param bool                   $and
      *
      * @return static
      */
     public function where($field, $operator = null, $value = null, bool $and = true)
     {
+        if (\is_string($field)) {
+            $this->validateFieldName($field, 'where');
+        }
+
         $count = \func_num_args();
 
         // if first parameters is a closure, we assume that's a nested where clause
@@ -40,6 +46,8 @@ trait HasWhereClausesTrait
         if (2 === $count) {
             return $this->where($field, '=', $operator);
         }
+
+        $this->validateOperator($operator);
 
         $clause = new WhereClause($field, $operator, $value, $and);
 
@@ -96,5 +104,58 @@ trait HasWhereClausesTrait
         }
 
         return "where $wheres;";
+    }
+
+    /**
+     * Validates if the given field name is valid.
+     *
+     * @param string $field
+     * @param string $clause
+     *
+     * @return void
+     *
+     * @throws BuilderException
+     */
+    protected function validateFieldName(string $field, string $clause)
+    {
+        $regex = '/^(([a-zA-Z0-9_]+(\.(([a-zA-Z0-9_]+)|\*))*)|\*)$/';
+        if (!preg_match($regex, $field)) {
+            throw BuilderException::invalidFieldName($field);
+        }
+
+        switch ($clause) {
+            case 'where':
+            case 'sort':
+                if (Str::contains($field, '*')) {
+                    throw BuilderException::wildcardDisallowed($clause);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Validates if the given operator is valid.
+     *
+     * @param string $operator
+     *
+     * @return void
+     *
+     * @throws BuilderException
+     */
+    protected function validateOperator(string $operator)
+    {
+        $allowedOperators = [
+            '=',
+            '!=',
+            '>',
+            '<',
+            '>=',
+            '<=',
+            '~',
+        ];
+
+        if (!\in_array($operator, $allowedOperators)) {
+            throw BuilderException::invalidOperator($operator);
+        }
     }
 }
