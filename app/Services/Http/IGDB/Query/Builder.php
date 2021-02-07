@@ -4,10 +4,12 @@ namespace App\Services\Http\IGDB\Query;
 
 use App\Services\Http\IGDB\Query\Clauses\FieldClause;
 use App\Services\Http\IGDB\Query\Clauses\SortClause;
-use App\Services\Http\IGDB\Query\Clauses\WhereClause;
+use App\Services\Http\IGDB\Query\Concerns\HasWhereClausesTrait;
 
 class Builder
 {
+    use HasWhereClausesTrait;
+
     /**
      * @var FieldClause[]
      */
@@ -17,11 +19,6 @@ class Builder
      * @var SortClause|null
      */
     protected $sort;
-
-    /**
-     * @var WhereClause[]
-     */
-    protected $wheres = [];
 
     /**
      * Selects one or more fields.
@@ -53,36 +50,6 @@ class Builder
     public function addField(string $field)
     {
         $this->fields[] = new FieldClause($field);
-
-        return $this;
-    }
-
-    /**
-     * Add a filtering condition (where) to the query.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param mixed  $value
-     * @param bool   $and
-     *
-     * @return void
-     */
-    public function where($field, $operator = null, $value = null, bool $and = true)
-    {
-        $count = \func_num_args();
-
-        // we assume the operator as =
-        if (2 === $count) {
-            return $this->where($field, '=', $operator);
-        }
-
-        $clause = new WhereClause($field, $operator, $value, $and);
-
-        if (empty($this->wheres)) {
-            $clause->isFirstClause(true);
-        }
-
-        $this->wheres[] = $clause;
 
         return $this;
     }
@@ -133,22 +100,6 @@ class Builder
         $fields = implode(', ', $this->fields);
 
         return "fields $fields;";
-    }
-
-    /**
-     * Compiles the where clause;.
-     *
-     * @return string|null
-     */
-    protected function compileWheres()
-    {
-        if (!$this->wheres) {
-            return null;
-        }
-
-        $wheres = implode('', $this->wheres);
-
-        return "where $wheres;";
     }
 
     /**
