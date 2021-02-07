@@ -3,7 +3,9 @@
 namespace App\Services\Http\IGDB;
 
 use App\Services\Http\IGDB\Exceptions\IGDBException;
+use App\Services\Http\IGDB\Query\Builder;
 use Carbon\Carbon;
+use Closure;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Client\PendingRequest;
@@ -29,6 +31,70 @@ class Client
             ::baseUrl(config('services.igdb.base_url'))
             ->withHeaders(['Client-ID' => config('services.igdb.client_id')])
             ->withToken($this->getAccessToken());
+    }
+
+    /**
+     * Creates a new Query Builder and, optionally, executes the query.
+     * If both $closure and $endpoint are present, returns a Response object, otherwire, returns the builder.
+     *
+     * @param Closure|null $closure
+     * @param string|null  $endpoint
+     *
+     * @return Response|Builder
+     *
+     * @throws IGDBException
+     * @throws Exception
+     */
+    public function query(?Closure $closure = null, ?string $endpoint = null)
+    {
+        if ($closure && $endpoint) {
+            $builder = new Builder($this);
+
+            $closure($builder);
+
+            return $this
+                ->request(
+                    $builder,
+                    $endpoint
+                );
+        }
+
+        return new Builder($this);
+    }
+
+    /**
+     * Make a request to a given endpoint.
+     *
+     * @param Builder $query
+     * @param string  $endpoint
+     *
+     * @return Response
+     *
+     * @throws IGDBException
+     * @throws Exception
+     */
+    public function request($query, string $endpoint)
+    {
+        $content = null;
+
+        if ($query instanceof Builder) {
+            $content = $query->compile();
+        } else {
+            throw IGDBException::invalidPayload();
+        }
+
+        $response = $this->httpClient
+            ->withBody(
+                $content,
+                'text/plain'
+            )
+            ->post($endpoint);
+
+        if ($response->failed()) {
+            throw IGDBException::unexpectedResponse($response);
+        }
+
+        return $response;
     }
 
     /**

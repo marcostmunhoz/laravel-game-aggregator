@@ -2,10 +2,14 @@
 
 namespace App\Services\Http\IGDB\Query;
 
+use App\Services\Http\IGDB\Client;
 use App\Services\Http\IGDB\Exceptions\BuilderException;
+use App\Services\Http\IGDB\Exceptions\IGDBException;
 use App\Services\Http\IGDB\Query\Clauses\FieldClause;
 use App\Services\Http\IGDB\Query\Clauses\SortClause;
 use App\Services\Http\IGDB\Query\Concerns\HasWhereClausesTrait;
+use Exception;
+use Illuminate\Http\Client\Response;
 
 class Builder
 {
@@ -19,6 +23,21 @@ class Builder
      * @var SortClause|null
      */
     protected $sort;
+
+    /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
+     * @param Client $client
+     *
+     * @return void
+     */
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * Selects one or more fields.
@@ -91,6 +110,23 @@ class Builder
                 $this->compileSort(),
             ])
         );
+    }
+
+    /**
+     * Executes the query and returns a Response object.
+     *
+     * @param string $endpoint
+     *
+     * @return Response
+     *
+     * @throws IGDBException
+     * @throws Exception
+     */
+    public function execute(string $endpoint)
+    {
+        return $this
+            ->client
+            ->request($this, $endpoint);
     }
 
     /**
