@@ -109,7 +109,7 @@ class Builder
      *
      * @return void
      */
-    public function limit(int $limit, ?int $offset)
+    public function limit(int $limit, ?int $offset = null)
     {
         $this->limit = new LimitClause($limit, $offset);
     }
