@@ -107,11 +107,13 @@ class Builder
      * @param int      $limit
      * @param int|null $offset
      *
-     * @return void
+     * @return $this
      */
     public function limit(int $limit, ?int $offset = null)
     {
         $this->limit = new LimitClause($limit, $offset);
+
+        return $this;
     }
 
     /**
