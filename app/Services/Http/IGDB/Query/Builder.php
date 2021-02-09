@@ -6,6 +6,7 @@ use App\Services\Http\IGDB\Client;
 use App\Services\Http\IGDB\Exceptions\BuilderException;
 use App\Services\Http\IGDB\Exceptions\IGDBException;
 use App\Services\Http\IGDB\Query\Clauses\FieldClause;
+use App\Services\Http\IGDB\Query\Clauses\LimitClause;
 use App\Services\Http\IGDB\Query\Clauses\SortClause;
 use App\Services\Http\IGDB\Query\Concerns\HasWhereClausesTrait;
 use Exception;
@@ -23,6 +24,11 @@ class Builder
      * @var SortClause|null
      */
     protected $sort;
+
+    /**
+     * @var LimitClause
+     */
+    protected $limit;
 
     /**
      * @var Client
@@ -96,6 +102,19 @@ class Builder
     }
 
     /**
+     * Paginates the query, limiting the amount of results.
+     *
+     * @param int      $limit
+     * @param int|null $offset
+     *
+     * @return void
+     */
+    public function limit(int $limit, ?int $offset)
+    {
+        $this->limit = new LimitClause($limit, $offset);
+    }
+
+    /**
      * Compiles the whole query (fields, where, order).
      *
      * @return string
@@ -108,6 +127,7 @@ class Builder
                 $this->compileFields(),
                 $this->compileWheres(),
                 $this->compileSort(),
+                $this->compileLimit(),
             ])
         );
     }
@@ -154,6 +174,18 @@ class Builder
     {
         return $this->sort
             ? (string) $this->sort
+            : null;
+    }
+
+    /**
+     * Compiles the limit clause.
+     *
+     * @return string|null
+     */
+    protected function compileLimit()
+    {
+        return $this->limit
+            ? (string) $this->limit
             : null;
     }
 

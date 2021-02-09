@@ -186,6 +186,37 @@ class BuilderTest extends TestCase
         $this->builder->sortBy($column, $direction);
     }
 
+    public function test_builder_can_limit_results()
+    {
+        $limit = $this->faker->numberBetween(1);
+        $offset = $this->faker->numberBetween(1);
+
+        $this->builder->limit($limit, $offset);
+
+        $this->assertEquals(
+            "limit $limit;\noffset $offset;",
+            $this->builder->compile()
+        );
+    }
+
+    public function test_calling_limit_twice_overwrites_the_previous_limiting()
+    {
+        $oldLimit = $this->faker->numberBetween(1);
+        $oldOffset = $this->faker->numberBetween(1);
+
+        $this->builder->limit($oldLimit, $oldOffset);
+
+        $newLimit = $this->faker->numberBetween(1);
+        $newOffset = $this->faker->numberBetween(1);
+
+        $this->builder->limit($newLimit, $newOffset);
+
+        $this->assertEquals(
+            "limit $newLimit;\noffset $newOffset;",
+            $this->builder->compile()
+        );
+    }
+
     public function test_builder_can_make_a_complex_query()
     {
         // select
@@ -216,8 +247,14 @@ class BuilderTest extends TestCase
         $this->builder->sortBy($sortColumn, $sortDirection);
         $sortCompiled = "sort $sortColumn $sortDirection;";
 
+        // limit
+        $limit = $this->faker->numberBetween(1);
+        $offset = $this->faker->numberBetween(1);
+        $this->builder->limit($limit, $offset);
+        $limitCompiled = "limit $limit;\noffset $offset;";
+
         $this->assertEquals(
-            implode(\PHP_EOL, [$selectCompiled, $whereCompiled, $sortCompiled]),
+            implode(\PHP_EOL, [$selectCompiled, $whereCompiled, $sortCompiled, $limitCompiled]),
             $this->builder->compile()
         );
     }
