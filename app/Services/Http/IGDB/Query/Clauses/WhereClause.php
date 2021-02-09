@@ -96,8 +96,41 @@ class WhereClause implements Stringable
      */
     protected function compileValue()
     {
-        return null === $this->value
-            ? 'null'
-            : (string) $this->value;
+        if (null === $this->value) {
+            return 'null';
+        }
+
+        if (\is_array($this->value)) {
+            return '('.implode(', ', array_map(
+                [$this, 'quoteValue'],
+                $this->value
+            )).')';
+        }
+
+        return $this->quoteValue($this->value);
+    }
+
+    /**
+     * Quotes the value, if needed.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    protected function quoteValue($value)
+    {
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        if ('"' !== substr($value, 0, 1)) {
+            $value = '"'.$value;
+        }
+
+        if ('"' !== substr($value, -1, 1)) {
+            $value .= '"';
+        }
+
+        return $value;
     }
 }
