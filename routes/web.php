@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index');
+Route::view('/', 'index')->name('index');
 
-Route::view('/show', 'show');
+Route::view('/game/{id}', 'show')->name('game.show');
