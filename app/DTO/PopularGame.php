@@ -65,7 +65,7 @@ class PopularGame
      *
      * @return string|null
      */
-    private static function convertCover(?string $cover)
+    protected static function convertCover(?string $cover)
     {
         if (!$cover) {
             return null;
@@ -81,7 +81,7 @@ class PopularGame
      *
      * @return float|null
      */
-    private static function formatRating(?float $rating)
+    protected static function formatRating(?float $rating)
     {
         if (null === $rating) {
             return null;
@@ -97,7 +97,7 @@ class PopularGame
      *
      * @return array
      */
-    private static function formatPlatforms(?array $platforms)
+    protected static function formatPlatforms(?array $platforms)
     {
         if (!$platforms) {
             return [];
