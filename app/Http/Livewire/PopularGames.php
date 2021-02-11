@@ -39,6 +39,9 @@ class PopularGames extends Component
      */
     public function loadGames(Client $client)
     {
+        // simulates a popular game by querying games that where recently
+        // released or are to be released soon (3 months past and future),
+        // ordering by updated_at
         $response = $client
             ->query()
             ->select('name', 'total_rating', 'platforms.abbreviation', 'platforms.name', 'cover.url')
@@ -46,7 +49,7 @@ class PopularGames extends Component
             ->where('total_rating_count', '>', 0)
             ->where('first_release_date', '>=', strtotime('-3 months'))
             ->where('first_release_date', '<=', strtotime('+3 months'))
-            ->sortBy('total_rating_count', 'desc')
+            ->sortBy('updated_at', 'desc')
             ->limit(12)
             ->execute('games');
 
