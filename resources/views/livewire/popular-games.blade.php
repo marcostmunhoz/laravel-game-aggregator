@@ -32,13 +32,13 @@
                <div class="bg-gray-800 w-64 lg:w-44 h-80 lg:h-56"></div>
             </div>
             <div>
-                <div class="inline-block text-transparent bg-gray-700 rounded leading-tight mt-4">
-                    Lorem ipsum dolor sit amet.
+                <div class="bg-gray-700 rounded mt-8 w-36">
+                    &nbsp;
                 </div>
             </div>
             <div>
-                <div class="inline-block text-transparent bg-gray-700 rounded mt-3">
-                    Lorem, ipsum dolor.
+                <div class="bg-gray-700 rounded mt-3 w-24">
+                    &nbsp;
                 </div>
             </div>
         </div>
