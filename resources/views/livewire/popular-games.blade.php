@@ -27,18 +27,18 @@
         </div>
         @empty
         @foreach (range(1, 12) as $placeholder)
-        <div class="game mt-8">
+        <div class="game mt-8 animate-pulse">
             <div class="relative inline-block">
-               <div class="bg-gray-800 w-44 h-56"></div>
+               <div class="bg-gray-800 w-64 lg:w-44 h-80 lg:h-56"></div>
             </div>
             <div>
-                <div class="inline-block text-transparent text-lg bg-gray-700 rounded leading-tight mt-4">
-                    Lorem, ipsum dolor.
+                <div class="inline-block text-transparent bg-gray-700 rounded leading-tight mt-4">
+                    Lorem ipsum dolor sit amet.
                 </div>
             </div>
             <div>
                 <div class="inline-block text-transparent bg-gray-700 rounded mt-3">
-                    Lorem, ipsum.
+                    Lorem, ipsum dolor.
                 </div>
             </div>
         </div>
