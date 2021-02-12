@@ -7,7 +7,7 @@
         <div class="game bg-gray-800 rounded-lg shadow-md flex px-6 py-6">
             <div class="inline-block">
                 <div class="relative">
-                    <a href="{{route('game.show', $game->id)}}">
+                    <a href="{{route('games.show', $game->slug)}}">
                         <img src="{{$game->cover}}"
                             alt="{{$game->name}}"
                             class="hover:opacity-75 transition ease-in-out duration-150 w-48"
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="ml-12 w-full">
-                <a href="{{route('game.show', $game->id)}}"
+                <a href="{{route('games.show', $game->slug)}}"
                     class="block text-lg font-semibold leading-tight hover:text-gray-400">
                     {{$game->name}}
                 </a>

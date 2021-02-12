@@ -5,14 +5,14 @@
     <div class="coming-soon-container space-y-10 mt-8">
         @forelse ($this->games as $game)
         <div class="game flex">
-            <a class="w-16 lg:w-3/12" href="{{route('game.show', $game->id)}}">
+            <a class="w-16 lg:w-3/12" href="{{route('games.show', $game->slug)}}">
                 <img src="{{$game->cover}}"
                     alt="{{$game->name}}"
                     class="hover:opacity-75 transition ease-in-out duration-150"
                 >
             </a>
             <div class="ml-4 w-full lg:w-9/12">
-                <a href="{{route('game.show', $game->id)}}" class="hover:text-gray-300">{{$game->name}}</a>
+                <a href="{{route('games.show', $game->slug)}}" class="hover:text-gray-300">{{$game->name}}</a>
                 <div class="text-gray-400 text-sm mt-1">
                     {{$game->releasedAt->format('M d, Y')}}
                 </div>

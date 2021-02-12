@@ -44,7 +44,7 @@ class RecentlyReviewed extends Component
         // by the total_rating_count
         $response = $client
             ->query()
-            ->select('name', 'total_rating', 'summary', 'status', 'platforms.abbreviation', 'platforms.name', 'cover.url')
+            ->select('slug', 'name', 'total_rating', 'summary', 'status', 'platforms.abbreviation', 'platforms.name', 'cover.url')
             ->where('platforms.abbreviation', ['PS4', 'PC', 'XONE', 'Series X', 'PS5', 'Switch'])
             ->where('total_rating_count', '>', 0)
             ->where('first_release_date', '>=', strtotime('-3 months'))

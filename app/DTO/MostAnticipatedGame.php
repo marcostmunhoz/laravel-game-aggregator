@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 class MostAnticipatedGame
 {
     /**
-     * @var int
+     * @var string
      */
-    public int $id;
+    public string $slug;
 
     /**
      * @var string
@@ -42,7 +42,7 @@ class MostAnticipatedGame
         foreach ($response->json() as $game) {
             $instance = new static();
 
-            $instance->id = data_get($game, 'id');
+            $instance->slug = data_get($game, 'slug');
             $instance->name = data_get($game, 'name');
             $instance->cover = self::convertCover(data_get($game, 'cover.url'));
             $instance->releasedAt = self::convertReleaseDate(data_get($game, 'first_release_date'));

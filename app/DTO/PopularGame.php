@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 class PopularGame
 {
     /**
-     * @var int
+     * @var string
      */
-    public int $id;
+    public string $slug;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class PopularGame
         foreach ($response->json() as $game) {
             $instance = new static();
 
-            $instance->id = data_get($game, 'id');
+            $instance->slug = data_get($game, 'slug');
             $instance->name = data_get($game, 'name');
             $instance->cover = self::convertCover(data_get($game, 'cover.url'));
             $instance->totalRating = self::formatRating(data_get($game, 'total_rating'));

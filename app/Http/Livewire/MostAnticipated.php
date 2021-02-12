@@ -43,7 +43,7 @@ class MostAnticipated extends Component
         // released, with rating, ordering by first_release_date
         $response = $client
             ->query()
-            ->select('name', 'cover.url', 'first_release_date')
+            ->select('slug', 'name', 'cover.url', 'first_release_date')
             ->where('platforms.abbreviation', ['PS4', 'PC', 'XONE', 'Series X', 'PS5', 'Switch'])
             ->where('total_rating_count', '>', 0)
             ->where('first_release_date', '>=', strtotime('-3 months'))

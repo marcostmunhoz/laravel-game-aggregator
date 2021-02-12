@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('index');
 
-Route::view('/game/{id}', 'show')->name('game.show');
+Route::view('/games/{slug}', 'show')->name('games.show');

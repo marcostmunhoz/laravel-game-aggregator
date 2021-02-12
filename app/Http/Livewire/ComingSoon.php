@@ -42,7 +42,7 @@ class ComingSoon extends Component
         // games yet to be released
         $response = $client
             ->query()
-            ->select('name', 'cover.url', 'first_release_date')
+            ->select('slug', 'name', 'cover.url', 'first_release_date')
             ->where('platforms.abbreviation', ['PS4', 'PC', 'XONE', 'Series X', 'PS5', 'Switch'])
             ->where('first_release_date', '>', strtotime('today'))
             ->sortBy('first_release_date', 'asc')

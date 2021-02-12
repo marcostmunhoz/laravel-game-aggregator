@@ -26,7 +26,7 @@ class RecentlyReviewedGame extends PopularGame
         foreach ($response->json() as $game) {
             $instance = new static();
 
-            $instance->id = data_get($game, 'id');
+            $instance->slug = data_get($game, 'slug');
             $instance->name = data_get($game, 'name');
             $instance->cover = self::convertCover(data_get($game, 'cover.url'));
             $instance->totalRating = self::formatRating(data_get($game, 'total_rating'));

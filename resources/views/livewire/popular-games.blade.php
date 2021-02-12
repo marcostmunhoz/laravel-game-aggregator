@@ -6,7 +6,7 @@
         @forelse ($this->games as $game)
         <div class="game mt-8">
             <div class="relative inline-block">
-                <a href="{{route('game.show', $game->id)}}">
+                <a href="{{route('games.show', $game->slug)}}">
                     <img src="{{$game->cover}}"
                         alt="{{$game->name}}"
                         class="hover:opacity-75 transition ease-in-out duration-150"
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{route('game.show', $game->id)}}"
+            <a href="{{route('games.show', $game->slug)}}"
                 class="block text-base font-semibold leading-tight hover:text-gray-400 mt-8">
                 {{$game->name}}
             </a>
