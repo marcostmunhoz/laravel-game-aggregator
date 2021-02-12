@@ -63,52 +63,9 @@ $games = [
         <livewire:recently-reviewed />
 
         <div class="lg:w-1/4 mt-12 lg:mt-0 space-y-10">
-            <div class="most-antecipated">
-                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
-                    Most Antecipated
-                </h2>
-                <div class="most-antecipated-container space-y-10 mt-8">
-                    @foreach (collect($games)->random(4) as $game)
-                    <div class="game flex">
-                        <a href="#">
-                            <img src="{{$game['image']}}"
-                                alt="{{$game['name']}}"
-                                class="hover:opacity-75 transition ease-in-out duration-150 w-16"
-                            >
-                        </a>
-                        <div class="ml-4">
-                            <a href="#" class="hover:text-gray-300">{{$game['name']}}</a>
-                            <div class="text-gray-400 text-sm mt-1">
-                                {{date('M d, Y', strtotime('-'.random_int(30, 120).' days'))}}
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            <div class="coming-soon">
-                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">
-                    Coming Soon
-                </h2>
-                <div class="coming-soon-container space-y-10 mt-8">
-                    @foreach (collect($games)->random(4) as $game)
-                    <div class="game flex">
-                        <a href="#">
-                            <img src="{{$game['image']}}"
-                                alt="{{$game['name']}}"
-                                class="hover:opacity-75 transition ease-in-out duration-150 w-16"
-                            >
-                        </a>
-                        <div class="ml-4">
-                            <a href="#" class="hover:text-gray-300">{{$game['name']}}</a>
-                            <div class="text-gray-400 text-sm mt-1">
-                                {{date('M d, Y', strtotime('+'.random_int(30, 120).' days'))}}
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
+            <livewire:most-anticipated />
+
+            <livewire:coming-soon />
         </div>
     </div>
 </div>

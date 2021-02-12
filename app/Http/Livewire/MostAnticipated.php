@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\DTO\PopularGame;
+use App\DTO\MostAnticipatedGame;
 use App\Services\Http\IGDB\Client;
 use App\Services\Http\IGDB\Exceptions\BuilderException;
 use App\Services\Http\IGDB\Exceptions\IGDBException;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class PopularGames extends Component
+class MostAnticipated extends Component
 {
     /**
      * @var array
@@ -25,7 +25,7 @@ class PopularGames extends Component
      */
     public function render()
     {
-        return view('livewire.popular-games');
+        return view('livewire.most-anticipated');
     }
 
     /**
@@ -39,20 +39,19 @@ class PopularGames extends Component
      */
     public function loadGames(Client $client)
     {
-        // simulates a popular game by querying games that were recently
-        // released or are to be released soon (3 months past and future),
-        // ordering by updated_at
+        // simulates a most anticipated game by querying games that were recently
+        // released, with rating, ordering by first_release_date
         $response = $client
             ->query()
-            ->select('name', 'total_rating', 'platforms.abbreviation', 'platforms.name', 'cover.url')
+            ->select('name', 'cover.url', 'first_release_date')
             ->where('platforms.abbreviation', ['PS4', 'PC', 'XONE', 'Series X', 'PS5', 'Switch'])
             ->where('total_rating_count', '>', 0)
             ->where('first_release_date', '>=', strtotime('-3 months'))
-            ->where('first_release_date', '<=', strtotime('+3 months'))
-            ->sortBy('updated_at', 'desc')
-            ->limit(12)
+            ->where('first_release_date', '<=', strtotime('today'))
+            ->sortBy('first_release_date', 'desc')
+            ->limit(4)
             ->execute('games');
 
-        $this->games = PopularGame::fromApiResponse($response);
+        $this->games = MostAnticipatedGame::fromApiResponse($response);
     }
 }
