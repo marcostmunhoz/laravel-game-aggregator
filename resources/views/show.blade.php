@@ -4,30 +4,30 @@
 <div class="container mx-auto px-4">
     <div class="game-details border-b border-gray-800 pb-12 flex flex-col lg:flex-row">
         <div class="flex-none">
-            <img src="images/ff7.jpg" alt="cover">
+            <img src="{{$game->cover}}" alt="{{$game->name}}">
         </div>
         <div class="lg:ml-12 lg:mr-64">
             <h2 class="font-semibold text-4xl leading-tight mt-1">
-                Final Fantasy 7 Remake
+                {{$game->name}}
             </h2>
             <div class="text-gray-400">
-                <span>Adventure, RPG</span>
+                <span>{{implode(', ', $game->genres)}}</span>
                 &middot;
-                <span>Square Enix</span>
+                <span>{{$game->publisher}}</span>
                 &middot;
-                <span>Playstation 4</span>
+                <span>{{implode(', ', $game->platforms)}}</span>
             </div>
 
             <div class="flex flex-wrap items-center mt-8">
                 <div class="flex items-center">
                     <div class="w-16 h-16 bg-gray-800 rounded-full">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">90%</div>
+                        <div class="font-semibold text-xs flex justify-center items-center h-full">{{$game->memberRating}}%</div>
                     </div>
                     <div class="ml-4 text-xs">Member <br> Score</div>
                 </div>
                 <div class="flex items-center ml-12">
                     <div class="w-16 h-16 bg-gray-800 rounded-full">
-                        <div class="font-semibold text-xs flex justify-center items-center h-full">90%</div>
+                        <div class="font-semibold text-xs flex justify-center items-center h-full">{{$game->criticRating}}%</div>
                     </div>
                     <div class="ml-4 text-xs">Critic <br> Score</div>
                 </div>
@@ -56,7 +56,7 @@
             </div>
 
             <p class="mt-12">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste ipsum doloremque quibusdam corporis atque delectus repellat culpa, ab assumenda ullam, et nam, laudantium dicta id veniam ducimus. Earum enim, voluptate tempore debitis perferendis accusantium aliquid nesciunt et consequatur deleniti officiis totam est similique eum voluptatibus, nisi sit temporibus cum, dolores distinctio fugiat possimus quae in impedit? Placeat libero impedit minima?
+                {{$game->summary}}
             </p>
 
             <div class="mt-12">
